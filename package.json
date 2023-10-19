@@ -1,0 +1,29 @@
+{
+  "name": "opal-connector",
+  "version": "1.0.0",
+  "description": "<div align=\"center\">\r   <br />\r   <br />",
+  "main": "dist/index.js",
+  "directories": {
+    "man": "man"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "build:dev": "npm run clean && tsc -w",
+    "start": "node .",
+    "start:dev": "nodemon .",
+    "dev": "concurrently -k -p '[{name}]' -n 'TypeScript,App' -c 'yellow.bold,cyan.bold' 'npm:build:dev' 'npm:start:dev'"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "@types/uuid": "^9.0.6",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "systeminformation": "^5.21.12",
+    "uuid": "^9.0.1",
+    "ws": "^8.14.2"
+  }
+}

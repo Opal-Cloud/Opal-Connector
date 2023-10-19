@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
+  "version": "1.0.0",
+  "description": "The app that sends your data to Opal Cloud servers for monitoring",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://xornet.cloud/",
+  "url": "https://github.com/Opal-Cloud/Opal-Connector/releases/download/v1.0.0/opalconnector.exe",
+  "bin": "opalconnector.exe",
+  "depends": [
+    "nssm",
+    "sudo"
+  ],
+  "autoupdate": {
+    "url": "https://github.com/Opal-Cloud/Opal-Connector/releases/download/v$version/opalconnector.exe",
+    "pre_install": "sudo nssm stop 'Opal Cloud Reporter'"
+  },
+  "uninstaller": {
+    "script": [
+      "echo 'Stopping Opal Cloud Reporter'",
+      "sudo nssm stop 'Opal Cloud Reporter'",
+      "sudo nssm remove 'Opal Cloud Reporter' confirm"
+    ]
+  },
+  "pre_install": [
+    "sudo nssm remove 'Opal Cloud Reporter' confirm"
+  ],
+  "post_install": [
+    "$token = Read-Host -Prompt 'Please enter your signup token: '",
+    "$curPath = Get-Location",
+    "if ($null -ne $env:SCOOP) { $scoopRoot = $env:SCOOP } else { $scoopRoot = '~/scoop' }",
+    "cd $scoopRoot/apps/opalconnector/0.17.3",
+    "$opalcloudPath = Get-Location",
+    "sudo nssm install 'Opal Cloud Reporter' $opalcloudPath/opalconnector.exe \"--silent\"",
+    "opalconnector.exe -su $token",
+    "sudo nssm start 'Opal Cloud Reporter'",
+    "cd $curPath"
+  ]
+}
