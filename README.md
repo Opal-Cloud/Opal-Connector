@@ -7,11 +7,11 @@ curl https://raw.githubusercontent.com/Opal-Cloud/Opal-Connector/main/scripts/in
 
 ## Compile EXE:
 ```
-npm install -g pkg
+npm i -g nexe
 
 Windows:
-pkg ./dist/src/index.js --targets node18-win-x64 --output ./exe/OpalCloud.exe
+nexe ./dist/src/index.js -o ./exe/OpalCloud -t windows-x64-10.0.0
 
-Ubuntu:
-pkg ./dist/src/index.js --targets node18-linux-arm64 --output ./exe/OpalCloud-aarch64-unknown-linux
+Linux:
+nexe ./dist/src/index.js -o ./exe/OpalCloud-aarch64-unknown-linux -t linux-x64-10.0.0
 ```
