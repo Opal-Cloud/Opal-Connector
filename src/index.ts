@@ -1,6 +1,16 @@
 import Data from "./DataCollector";
-import config from "./config.json";
+import fs from 'fs';
+import os from 'os';
 import WebSocket from 'ws';
+
+const platform = os.platform();
+let config;
+
+if (platform === "linux") {
+  config = JSON.parse(fs.readFileSync('/opt/opalcloud/config.json', 'utf-8'));
+} else {
+  config = require("./config.json");
+}
 
 const ws = new WebSocket('ws://localhost:3000');
 ws.on('error', console.error);
@@ -12,12 +22,12 @@ declare global {
   var config: any;
 }
 
-global.config = config.UUID;
+global.config = config.access_token;
 
 let sendDataInterval: NodeJS.Timeout;
 
 const sendData = async () => {
-  //if (!global.config) return;
+  if (!global.config) return;
   const dataToSend = await Data.get();
   ws.send(JSON.stringify(dataToSend));
 };

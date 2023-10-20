@@ -28,6 +28,8 @@ pnpm-debug.log*
 /target
 config.json
 
+/exe/OpalCloud
+/exe/OpalCloud.exe
 # Added by cargo
 #
 # already existing elements were commented out
