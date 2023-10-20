@@ -187,18 +187,24 @@ else
   handle_exit_code
 fi
 
-# Download the latest release from github and extract it
 echo "Downloading the latest release from github..."
 download_url=$(curl -s https://api.github.com/repos/Opal-Cloud/Opal-Connector/releases | grep browser_download_url | grep "${arch}-" | head -n 1 | cut -d '"' -f 4)
-echo "Looking for file: $download_url"
-curl -L $download_url -o opalcloud-reporter
-handle_exit_code
-echo "Moving the executable into /opt/opalcloud..."
-mv opalcloud-reporter /opt/opalcloud
-handle_exit_code
-echo "Flagging as executable..."
-chmod +x /opt/opalcloud/opalcloud-reporter
-handle_exit_code
+
+if [ -z "$download_url" ]; then
+  echo "Could not find a download URL for architecture $arch."
+  handle_exit_code
+  exit 1
+else
+  echo "Looking for file: $download_url"
+  curl -L $download_url -o opalcloud-reporter
+  handle_exit_code
+  echo "Moving the executable into /opt/opalcloud..."
+  mv opalcloud-reporter /opt/opalcloud
+  handle_exit_code
+  echo "Flagging as executable..."
+  chmod +x /opt/opalcloud/opalcloud-reporter
+  handle_exit_code
+fi
 
 if [ ! -f /opt/opalcloud/config.json ]; then
   cd /opt/opalcloud
