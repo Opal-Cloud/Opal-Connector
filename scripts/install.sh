@@ -214,7 +214,7 @@ if [ ! -f /opt/opalcloud/config.json ]; then
   else
     token=$1
   fi
-  ./opalcloud-reporter -su $token
+  ./opalcloud-reporter -su $token >> /var/log/opalcloud-reporter.log 2>&1
   handle_exit_code
   cd $path
 fi
