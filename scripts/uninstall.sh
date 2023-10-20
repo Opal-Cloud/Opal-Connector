@@ -39,7 +39,7 @@ fi
 echo "Ok."
 echo
 echo "Checking for Opal Cloud reporter installation..."
-if [ -d /opt/xornet ]; then
+if [ -d /opt/opalcloud ]; then
   echo "Opal Cloud reporter is installed."
 else
   echo "Opal Cloud reporter is not installed. No uninstallation will be done."
@@ -52,17 +52,17 @@ case ${answer:0:1} in
     echo "Ok, uninstalling Opal Cloud reporter..."
     if [ $systemctl_installed = true ]; then
       echo "Stopping Opal Cloud reporter service..."
-      systemctl stop xornet-reporter.service
+      systemctl stop opalcloud-reporter.service
       handle_exit_code_non_crucial
       echo "Disabling Opal Cloud reporter service..."
-      systemctl disable xornet-reporter.service
+      systemctl disable opalcloud-reporter.service
       handle_exit_code_non_crucial
       echo "Removing Opal Cloud reporter service..."
-      rm /etc/systemd/system/xornet-reporter.service
+      rm /etc/systemd/system/opalcloud-reporter.service
       handle_exit_code_non_crucial
     fi
     echo "Removing Opal Cloud reporter files..."
-    rm -rf /opt/xornet
+    rm -rf /opt/opalcloud
     handle_exit_code_non_crucial
     echo "Opal Cloud reporter has been uninstalled."
     ;;
