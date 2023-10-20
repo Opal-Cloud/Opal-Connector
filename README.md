@@ -1,7 +1,9 @@
 # vps
 
 ## Install
-
+```bash
+curl https://raw.githubusercontent.com/Opal-Cloud/Opal-Connector/main/scripts/install.sh | sudo bash
+```
 
 ## Compile EXE:
 ```
