@@ -28,7 +28,7 @@ pnpm-debug.log*
 /target
 config.json
 
-/exe/OpalCloud
+/exe/OpalCloud-aarch64-unknown-linux
 /exe/OpalCloud.exe
 # Added by cargo
 #
