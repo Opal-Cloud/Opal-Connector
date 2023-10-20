@@ -206,17 +206,25 @@ else
   handle_exit_code
 fi
 
-if [ ! -f /opt/opalcloud/config.json ]; then
-  cd /opt/opalcloud
-  echo "Setting up as a new installation..."
+config_file="/opt/opalcloud/config.json"
+if [ -f $config_file ]; then
+  echo "Updating access_token in existing config.json..."
   if [ ! $1 ]; then
     read -p "Please enter your OpalCloud Signup Token: " token </dev/tty
   else
     token=$1
   fi
-  ./opalcloud-reporter -su $token >> /var/log/opalcloud-reporter.log 2>&1
+  jq --arg token "$token" '.access_token = $token' $config_file > tmp.$$.json && mv tmp.$$.json $config_file
   handle_exit_code
-  cd $path
+else
+  echo "Creating new config.json and setting access_token..."
+  if [ ! $1 ]; then
+    read -p "Please enter your OpalCloud Signup Token: " token </dev/tty
+  else
+    token=$1
+  fi
+  echo "{\"access_token\": \"$token\"}" > $config_file
+  handle_exit_code
 fi
 
 if [ $service_manager = "systemd" ]; then
