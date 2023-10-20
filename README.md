@@ -13,5 +13,5 @@ Windows:
 pkg ./dist/src/index.js --targets node18-win-x64 --output ./exe/OpalCloud.exe
 
 Ubuntu:
-pkg ./dist/src/index.js --targets node18-linux-x64 --output ./exe/OpalCloud
+pkg ./dist/src/index.js --targets node18-linux-arm64 --output ./exe/OpalCloud-aarch64-unknown-linux
 ```
