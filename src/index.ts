@@ -1,4 +1,5 @@
 import Data from "./DataCollector";
+import Node from "./EventManager";
 import fs from 'fs';
 import os from 'os';
 import WebSocket from 'ws';
@@ -38,10 +39,14 @@ ws.on('open', async () => {
   sendDataInterval = setInterval(sendData, 1000);
 });
 
-ws.on('message', (message) => {
-  console.log(`Node: ${message}`);
+ws.on('message', async(message) => {
+  await Node.Manage(ws, message);
 });
 
 ws.on('close', () => {
   clearInterval(sendDataInterval);
+});
+
+ws.on('error', (err) => {
+  ws.send(`WebSocket Error: ${err}`);
 });
