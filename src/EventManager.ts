@@ -5,32 +5,31 @@ export default class Node {
         try {
             const parsedMessage = JSON.parse(message);
             const { type } = parsedMessage;
-            
+
             if (!type) {
-                ws.send("Type is required.");
-                return;
+                return { error: "Type is required." };
             }
 
             if (type === "CRON") {
                 const id = parsedMessage.id || null;
                 const event = parsedMessage.event || null;
                 const cmd = parsedMessage.cmd || null;
-                
+
                 if (event === "create" && id && cmd) {
                     const result = await CRON.create(id, cmd);
-                    ws.send(`Successfully created CRON job: ${result}`);
+                    return { success: true, message: `Successfully created CRON job: ${result}` };
                 } else if (event === "delete" && id) {
                     const result = await CRON.delete(id);
-                    ws.send(`Successfully deleted CRON job: ${result}`);
+                    return { success: true, message: `Successfully deleted CRON job: ${result}` };
                 } else {
-                    ws.send("Invalid event type for CRON or insufficient data.");
+                    return { error: "Invalid event type for CRON or insufficient data." };
                 }
             } else {
-                ws.send("Invalid type.");
+                return { error: "Invalid type." };
             }
 
         } catch (error) {
-            ws.send(`Error managing the message: ${error}`);
+            return { error: `Error managing the message: ${error}` };
         }
     }
-}
+}  

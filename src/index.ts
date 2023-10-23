@@ -39,8 +39,9 @@ ws.on('open', async () => {
   sendDataInterval = setInterval(sendData, 1000);
 });
 
-ws.on('message', async(message) => {
-  await Node.Manage(ws, message);
+ws.on('message', async (message) => {
+  const response = await Node.Manage(ws, message);
+  ws.send(JSON.stringify(response));
 });
 
 ws.on('close', () => {
